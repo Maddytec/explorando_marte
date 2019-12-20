@@ -14,6 +14,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.maddytec.marte.utils.ExploracaoEnum;
@@ -52,6 +53,7 @@ public class Planalto {
 	@Enumerated(EnumType.ORDINAL)
 	private ExploracaoEnum exploracao;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
 	@Column(name = "data_criacao", nullable = true, updatable = false)
 	private LocalDateTime dataCriacao;
 
