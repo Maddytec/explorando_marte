@@ -26,7 +26,7 @@ public class PlanaltoService {
 			planaltos.stream()
 					.filter(planalto -> ExploracaoEnum.EXPLORACAO_NAO.getDescricao()
 							.equals(planalto.getExploracao().getDescricao()))
-					.findAny().orElseThrow(IllegalStateException::new);
+					.findAny().orElseThrow(() -> new IllegalStateException("Existe um planalto em exploração."));
 		}
 
 		Planalto planalto = new Planalto();
