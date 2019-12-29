@@ -17,7 +17,10 @@ import br.com.maddytec.marte.domain.Planalto;
 import br.com.maddytec.marte.dto.PlanaltoDTO;
 import br.com.maddytec.marte.repository.PlanaltoRepository;
 import br.com.maddytec.marte.service.PlanaltoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "Planalto")
 @RestController
 @RequestMapping(value = "planalto")
 public class PlanaltoController {
@@ -28,6 +31,7 @@ public class PlanaltoController {
 	@Autowired
 	private PlanaltoService planaltoService;
 	
+	@ApiOperation(value = "Salvar a area do planalto")
 	@PostMapping
 	public ResponseEntity<Planalto> save(@RequestBody @Valid PlanaltoDTO planaltoDTO) {
 
@@ -36,6 +40,7 @@ public class PlanaltoController {
 		return ResponseEntity.status(HttpStatus.OK).body(planaltoCriado);
 	}
 
+	@ApiOperation(value = "Pesquisar os planaltos")
 	@GetMapping
 	public ResponseEntity<List<Planalto>> findAll() {
 		List<Planalto> planaltos = planaltoRepository.findAll();

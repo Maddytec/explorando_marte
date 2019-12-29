@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.maddytec.marte.domain.Planalto;
 import br.com.maddytec.marte.domain.Sonda;
 import br.com.maddytec.marte.dto.SondaDTO;
 import br.com.maddytec.marte.repository.SondaRepository;
 import br.com.maddytec.marte.service.SondaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
+@Api(tags = "Sonda")
 @RestController
 @RequestMapping(value = "sonda")
 public class SondaController {
@@ -28,7 +30,8 @@ public class SondaController {
 	
 	@Autowired
 	private SondaService sondaService;
-	
+
+	@ApiOperation(value = "Salvar a posição inicial da sonda no planalto")
 	@PostMapping
 	public ResponseEntity<Sonda> save(@RequestBody @Valid SondaDTO sondaDTO) {
 
@@ -37,6 +40,7 @@ public class SondaController {
 		return ResponseEntity.status(HttpStatus.OK).body(sondaCriada);
 	}
 
+	@ApiOperation(value = "Pesquisar os sondas")
 	@GetMapping
 	public ResponseEntity<List<Sonda>> findAll() {
 		List<Sonda> sondas = sondaRepository.findAll();
