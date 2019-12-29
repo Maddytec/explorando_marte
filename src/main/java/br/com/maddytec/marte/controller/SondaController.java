@@ -1,6 +1,7 @@
 package br.com.maddytec.marte.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,8 +41,19 @@ public class SondaController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(sondaCriada);
 	}
+	
+	
+	@PostMapping(path = "/{sondaId}")
+	public ResponseEntity<Sonda> explorar(@PathVariable(name = "sondaId") @Valid Long sondaId){
+		
+		Sonda sonda = sondaService.findById(sondaId);
+		
+		//TODO exploração da sonda
+		return ResponseEntity.status(HttpStatus.OK).body(sonda);
+	}
+	
 
-	@ApiOperation(value = "Pesquisar os sondas")
+	@ApiOperation(value = "Pesquisar as sondas")
 	@GetMapping
 	public ResponseEntity<List<Sonda>> findAll() {
 		List<Sonda> sondas = sondaRepository.findAll();

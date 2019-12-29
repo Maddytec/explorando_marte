@@ -41,5 +41,11 @@ public class SondaService {
 
 		return sondaRepository.save(sonda);
 	}
+	
+	public Sonda findById(Long sondaId) {
+		 return sondaRepository.findById(sondaId)
+				 .orElseThrow(
+						 () -> new IllegalStateException("Sonda não localizada"));
+	}
 
 }
