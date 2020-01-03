@@ -2,6 +2,8 @@ package br.com.maddytec.marte.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.maddytec.marte.utils.DirecaoEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,8 +46,8 @@ public class Sonda {
 	@Column(name = "cordenada_y", nullable = false, length = 4)
 	private Long cordenadaY;
 
-	@NotBlank
-	@Column(nullable = false, length = 1)
-	private String direcao;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private DirecaoEnum direcao;
 	
 }

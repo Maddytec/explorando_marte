@@ -12,6 +12,8 @@ import br.com.maddytec.marte.domain.Sonda;
 import br.com.maddytec.marte.dto.SondaDTO;
 import br.com.maddytec.marte.repository.PlanaltoRepository;
 import br.com.maddytec.marte.repository.SondaRepository;
+import br.com.maddytec.marte.utils.ComandoEnum;
+import br.com.maddytec.marte.utils.DirecaoEnum;
 import br.com.maddytec.marte.utils.ExploracaoEnum;
 
 @Service
@@ -46,6 +48,43 @@ public class SondaService {
 		 return sondaRepository.findById(sondaId)
 				 .orElseThrow(
 						 () -> new IllegalStateException("Sonda não localizada"));
+	}
+
+	public Sonda explorar(Sonda sonda, String comando) {
+		
+		String comandoEnviado = comando;
+		
+		switch(sonda.getDirecao() )
+		{
+		    case N:
+		            if(comandoEnviado.equals(ComandoEnum.L.name())) {
+		            	sonda.setDirecao(DirecaoEnum.W);
+		            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
+		            	sonda.setDirecao(DirecaoEnum.E);
+		            break;
+		    case E:
+		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
+	            	sonda.setDirecao(DirecaoEnum.N);
+	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
+	            	sonda.setDirecao(DirecaoEnum.S);
+	            break;
+		    
+		    case S:
+		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
+	            	sonda.setDirecao(DirecaoEnum.E);
+	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
+	            	sonda.setDirecao(DirecaoEnum.W);
+	            break;
+		    case W:
+		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
+	            	sonda.setDirecao(DirecaoEnum.N);
+	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
+	            	sonda.setDirecao(DirecaoEnum.S);
+	            break;
+		    		    
+		}
+		
+		return sonda;
 	}
 
 }

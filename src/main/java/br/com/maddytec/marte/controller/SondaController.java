@@ -43,12 +43,18 @@ public class SondaController {
 	}
 	
 	
-	@PostMapping(path = "/{sondaId}")
-	public ResponseEntity<Sonda> explorar(@PathVariable(name = "sondaId") @Valid Long sondaId){
+	@PostMapping(path = "/{sondaId}/{comandoExplorar}")
+	public ResponseEntity<Sonda> explorar(
+			@PathVariable(name = "sondaId") @Valid Long sondaId,
+			@PathVariable(name = "comandoExplorar") String comandoExplorar){
 		
 		Sonda sonda = sondaService.findById(sondaId);
 		
+		   sonda = sondaService.explorar(sonda, comandoExplorar);
+		
 		//TODO exploração da sonda
+		
+		
 		return ResponseEntity.status(HttpStatus.OK).body(sonda);
 	}
 	

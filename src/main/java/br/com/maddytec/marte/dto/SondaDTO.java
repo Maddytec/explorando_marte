@@ -7,6 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.maddytec.marte.utils.DirecaoEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +33,6 @@ public class SondaDTO implements Serializable {
 	@Max(value = 9999, message = "Cordenada Y não pode ser maior 9999")
 	private Long cordenadaY;
 	
-	@NotBlank
-	private String direcao;
+	private DirecaoEnum direcao;
 	
 }
