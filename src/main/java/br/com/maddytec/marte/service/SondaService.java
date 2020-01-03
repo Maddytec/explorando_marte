@@ -54,6 +54,12 @@ public class SondaService {
 		
 		String comandoEnviado = comando;
 		
+		alterarDirecao(sonda, comandoEnviado);
+		
+		return sonda;
+	}
+
+	private void alterarDirecao(Sonda sonda, String comandoEnviado) {
 		switch(sonda.getDirecao() )
 		{
 		    case N:
@@ -83,8 +89,6 @@ public class SondaService {
 	            break;
 		    		    
 		}
-		
-		return sonda;
 	}
 
 }
