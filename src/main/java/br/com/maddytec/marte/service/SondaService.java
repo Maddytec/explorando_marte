@@ -51,38 +51,72 @@ public class SondaService {
 	}
 
 	public Sonda explorar(Sonda sonda, String comando) {
-		String comandoEnviado = "";
+		String executar = "";
+		comando = comando.trim().toUpperCase();
 
 		for (int i = 0; i < comando.length(); i++) {
-			comandoEnviado = comando.substring(i, i + 1);
-			mover(sonda, comandoEnviado);
-			alterarDirecao(sonda, comandoEnviado);
+			executar = comando.substring(i, i + 1);
+			mover(sonda, executar);
+			alterarDirecao(sonda, executar);
 		}
 		return sonda;
 	}
 
-	private void mover(Sonda sonda, String comandoEnviado) {
-		if(ComandoEnum.M.name().equals(comandoEnviado)) {
-		switch(sonda.getDirecao() )
-		{
-		    case N:
-		    	sonda.setCordenadaY(sonda.getCordenadaY() + 1);
-		        break;
-		    case E:
-		    	sonda.setCordenadaX(sonda.getCordenadaX() + 1);
-	            break;
-		    
-		    case S:
-		    	sonda.setCordenadaY(sonda.getCordenadaY() - 1);
-	            break;
-		    case W:
-		    	sonda.setCordenadaX(sonda.getCordenadaX() - 1);
-	            break;
-		    		    
-			}
+	private void mover(Sonda sonda, String executar) {
+		Planalto planaltoEncontrado = buscarPlanaltoExploracao();
+		if(ComandoEnum.M.name().equals(executar) && planaltoEncontrado != null) {
+			sonda.setCordenadaY(novaCordenadaPlanaltoExploracaoEixoY(sonda, planaltoEncontrado ));
+		    sonda.setCordenadaX(novaCordenadaPlanaltoExploracaoEixoX(sonda, planaltoEncontrado ));
 		}
 	}
 
+	private Long novaCordenadaPlanaltoExploracaoEixoY(Sonda sonda, Planalto planaltoEncontrado) {
+		if(sonda != null && planaltoEncontrado != null) {
+			if(DirecaoEnum.N.name().equals(sonda.getDirecao().name())){
+				if(!(sonda.getCordenadaY() + 1 > planaltoEncontrado.getCordenadaY())) {
+					return sonda.getCordenadaY() + 1;
+				}
+			}
+					
+			if(DirecaoEnum.S.name().equals(sonda.getDirecao().name())){
+				if(!(sonda.getCordenadaY() - 1 < 0)) {
+					return sonda.getCordenadaY() - 1;
+				}
+			}		
+				
+		}	
+		return sonda.getCordenadaY();	
+	}
+
+	
+	private Long novaCordenadaPlanaltoExploracaoEixoX(Sonda sonda, Planalto planaltoEncontrado) {
+		if(sonda != null && planaltoEncontrado != null) {
+			if(DirecaoEnum.E.name().equals(sonda.getDirecao().name())){
+				if(!(sonda.getCordenadaX() + 1 > planaltoEncontrado.getCordenadaX())) {
+					return sonda.getCordenadaX() + 1;
+				}
+			}
+					
+			if(DirecaoEnum.W.name().equals(sonda.getDirecao().name())){
+				if(!(sonda.getCordenadaX() - 1 < 0)) {
+					return sonda.getCordenadaX() - 1;
+				}
+			}		
+				
+		}	
+		return sonda.getCordenadaX();	
+	}
+
+	private Planalto buscarPlanaltoExploracao() {
+		List<Planalto> planaltos = planaltoRepository.findAll();
+		if (!CollectionUtils.isEmpty(planaltos)) {
+			return planaltos.stream().filter(planalto -> ExploracaoEnum.EXPLORACAO_SIM.getDescricao()
+					.equals(planalto.getExploracao().getDescricao()))
+					.findAny().orElse(null);
+		}
+		return null;
+	}
+	
 	private void alterarDirecao(Sonda sonda, String comandoEnviado) {
 		if(!ComandoEnum.M.name().equals(comandoEnviado)) {
 		switch(sonda.getDirecao() )
