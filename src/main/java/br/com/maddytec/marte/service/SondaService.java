@@ -35,10 +35,11 @@ public class SondaService {
 							.equals(planalto.getExploracao().getDescricao())							)
 					.findAny().orElseThrow(() -> new IllegalStateException("Não existe um planalto em exploração para sonda explorar"));
 			
-			if(sondaDTO.getCordenadaX() > planaltoEncontrado.getCordenadaX()
-					|| sondaDTO.getCordenadaY() > planaltoEncontrado.getCordenadaY()) {
+			if(sondaDTO.getCoordenadaX() > planaltoEncontrado.getCoordenadaX()
+					|| sondaDTO.getCoordenadaY() > planaltoEncontrado.getCoordenadaY()) {
 				throw new IllegalStateException("Cordenada maior que os limites do planaldo.");
 			}
+			
 		} else {
 			throw new IllegalStateException("Não existe planalto");
 		}
@@ -59,57 +60,64 @@ public class SondaService {
 		String executar = "";
 		comando = comando.trim().toUpperCase();
 
-		for (int i = 0; i < comando.length(); i++) {
-			executar = comando.substring(i, i + 1);
-			mover(sonda, executar);
-			alterarDirecao(sonda, executar);
+		Planalto planaltoExploracao = buscarPlanaltoExploracao();
+		if(planaltoExploracao != null 
+			&& ExploracaoEnum.EXPLORACAO_SIM.getDescricao().equals(planaltoExploracao.getExploracao().getDescricao())) {
+			for (int i = 0; i < comando.length(); i++) {
+				executar = comando.substring(i, i + 1);
+				mover(sonda, executar);
+				alterarDirecao(sonda, executar);
+			}
+		} else {
+			throw new IllegalStateException("Não há planalto com status para exploração");
 		}
+		
 		return sonda;
 	}
 
 	private void mover(Sonda sonda, String executar) {
 		Planalto planaltoEncontrado = buscarPlanaltoExploracao();
 		if(ComandoEnum.M.name().equals(executar) && planaltoEncontrado != null) {
-			sonda.setCordenadaY(novaCordenadaPlanaltoExploracaoEixoY(sonda, planaltoEncontrado ));
-		    sonda.setCordenadaX(novaCordenadaPlanaltoExploracaoEixoX(sonda, planaltoEncontrado ));
+			sonda.setCoordenadaY(novaCordenadaPlanaltoExploracaoEixoY(sonda, planaltoEncontrado ));
+		    sonda.setCoordenadaX(novaCordenadaPlanaltoExploracaoEixoX(sonda, planaltoEncontrado ));
 		}
 	}
 
 	private Long novaCordenadaPlanaltoExploracaoEixoY(Sonda sonda, Planalto planaltoEncontrado) {
 		if(sonda != null && planaltoEncontrado != null) {
 			if(DirecaoEnum.N.name().equals(sonda.getDirecao().name())){
-				if(!(sonda.getCordenadaY() + 1 > planaltoEncontrado.getCordenadaY())) {
-					return sonda.getCordenadaY() + 1;
+				if(!(sonda.getCoordenadaY() + 1 > planaltoEncontrado.getCoordenadaY())) {
+					return sonda.getCoordenadaY() + 1;
 				}
 			}
 					
 			if(DirecaoEnum.S.name().equals(sonda.getDirecao().name())){
-				if(!(sonda.getCordenadaY() - 1 < 0)) {
-					return sonda.getCordenadaY() - 1;
+				if(!(sonda.getCoordenadaY() - 1 < 0)) {
+					return sonda.getCoordenadaY() - 1;
 				}
 			}		
 				
 		}	
-		return sonda.getCordenadaY();	
+		return sonda.getCoordenadaY();	
 	}
 
 	
 	private Long novaCordenadaPlanaltoExploracaoEixoX(Sonda sonda, Planalto planaltoEncontrado) {
 		if(sonda != null && planaltoEncontrado != null) {
 			if(DirecaoEnum.E.name().equals(sonda.getDirecao().name())){
-				if(!(sonda.getCordenadaX() + 1 > planaltoEncontrado.getCordenadaX())) {
-					return sonda.getCordenadaX() + 1;
+				if(!(sonda.getCoordenadaX() + 1 > planaltoEncontrado.getCoordenadaX())) {
+					return sonda.getCoordenadaX() + 1;
 				}
 			}
 					
 			if(DirecaoEnum.W.name().equals(sonda.getDirecao().name())){
-				if(!(sonda.getCordenadaX() - 1 < 0)) {
-					return sonda.getCordenadaX() - 1;
+				if(!(sonda.getCoordenadaX() - 1 < 0)) {
+					return sonda.getCoordenadaX() - 1;
 				}
 			}		
 				
 		}	
-		return sonda.getCordenadaX();	
+		return sonda.getCoordenadaX();	
 	}
 
 	private Planalto buscarPlanaltoExploracao() {

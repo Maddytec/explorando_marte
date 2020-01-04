@@ -38,16 +38,16 @@ public class Planalto {
 	private Long id;
 
 	@NotNull
-	@Min(value = 0, message = "Cordenada X não pode ser menor que 0")
-	@Max(value = 9999, message = "Cordenada X não pode ser maior 9999")
-	@Column(name = "cordenada_x", nullable = false, length = 4)
-	private Long cordenadaX;
+	@Min(value = 0, message = "Coordenada X não pode ser menor que 0")
+	@Max(value = 9999, message = "Coordenada X não pode ser maior 9999")
+	@Column(name = "coordenada_x", nullable = false, length = 4)
+	private Long coordenadaX;
 
 	@NotNull
-	@Min(value = 0, message = "Cordenada Y não pode ser menor que 0")
-	@Max(value = 9999, message = "Cordenada Y não pode ser maior 9999")
-	@Column(name = "cordenada_y", nullable = false, length = 4)
-	private Long cordenadaY;
+	@Min(value = 0, message = "Coordenada Y não pode ser menor que 0")
+	@Max(value = 9999, message = "Coordenada Y não pode ser maior 9999")
+	@Column(name = "coordenada_y", nullable = false, length = 4)
+	private Long coordenadaY;
 
 	@Column(name = "exploracao")
 	@Enumerated(EnumType.ORDINAL)

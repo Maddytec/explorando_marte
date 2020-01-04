@@ -34,5 +34,25 @@ public class PlanaltoService {
 
 		return planaltoRepository.save(planalto);
 	}
+	
+	public Planalto finalizarExploração() {
+		Planalto planaltoEncontrado = null;
+
+		List<Planalto> planaltos = planaltoRepository.findAll();
+		
+		if (!CollectionUtils.isEmpty(planaltos)) {
+			planaltoEncontrado = planaltos.stream()
+					.filter(planalto -> ExploracaoEnum.EXPLORACAO_SIM.getDescricao()
+							.equals(planalto.getExploracao().getDescricao()))
+					.findAny().orElseThrow(null);
+		}
+
+		if(planaltoEncontrado != null) {
+			planaltoEncontrado.setExploracao(ExploracaoEnum.EXPLORACAO_NAO);
+		}
+		
+		return planaltoEncontrado;
+	}
+	
 
 }
