@@ -9,6 +9,7 @@ git clone https://github.com/Maddytec/explorando-marte-api.git
 ```
 ## 2. Executar
 `$ cd explorando-marte-api`
+
 `$ mvn spring-boot:run`
 
 Requisitos para executar a API:
@@ -18,6 +19,7 @@ Requisitos para executar a API:
 ## 3. Como testar a API?
 
 Após executar o item 2:
+
 a) Acessar a URL: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 b) Criar o Planalto: 
@@ -50,5 +52,5 @@ d) Enviar comando para a sonda explorar Marte:
 - Comando para exploração da sonda em Marte - comandoExplorar: MMRRMMLL 
 -  Campo "sondaId" é código da sonda criada no item anterior: 1
 
-## 3. License
+## 4. License
 Este código é open source.
