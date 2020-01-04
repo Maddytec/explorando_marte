@@ -30,10 +30,15 @@ public class SondaService {
 		List<Planalto> planaltos = planaltoRepository.findAll();
 
 		if (!CollectionUtils.isEmpty(planaltos)) {
-			planaltos.stream()
+			Planalto planaltoEncontrado = planaltos.stream()
 					.filter(planalto -> ExploracaoEnum.EXPLORACAO_SIM.getDescricao()
-							.equals(planalto.getExploracao().getDescricao()))
+							.equals(planalto.getExploracao().getDescricao())							)
 					.findAny().orElseThrow(() -> new IllegalStateException("Não existe um planalto em exploração para sonda explorar"));
+			
+			if(sondaDTO.getCordenadaX() > planaltoEncontrado.getCordenadaX()
+					|| sondaDTO.getCordenadaY() > planaltoEncontrado.getCordenadaY()) {
+				throw new IllegalStateException("Cordenada maior que os limites do planaldo.");
+			}
 		} else {
 			throw new IllegalStateException("Não existe planalto");
 		}
