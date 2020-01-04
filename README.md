@@ -52,5 +52,10 @@ d) Enviar comando para a sonda explorar Marte:
 - Comando para exploração da sonda em Marte - comandoExplorar: MMRRMMLL 
 -  Campo "sondaId" é código da sonda criada no item anterior: 1
 
+e) Finalizar exploração: 
+[http://localhost:8080/swagger-ui.html#/Planalto/finalizarExploracaoUsingPUT](http://localhost:8080/swagger-ui.html#/Planalto/finalizarExploracaoUsingPUT)
+
+- Apenas executar o serviço, que a exploração que estiver ativa, ou seja com o valor do campo exploração igual a "SIM", será alterada para "NÃO" e assim finalizando a exploração. 
+
 ## 4. License
 Este código é open source.
