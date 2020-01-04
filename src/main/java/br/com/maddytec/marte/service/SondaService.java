@@ -51,15 +51,40 @@ public class SondaService {
 	}
 
 	public Sonda explorar(Sonda sonda, String comando) {
-		
-		String comandoEnviado = comando;
-		
-		alterarDirecao(sonda, comandoEnviado);
-		
+		String comandoEnviado = "";
+
+		for (int i = 0; i < comando.length(); i++) {
+			comandoEnviado = comando.substring(i, i + 1);
+			mover(sonda, comandoEnviado);
+			alterarDirecao(sonda, comandoEnviado);
+		}
 		return sonda;
 	}
 
+	private void mover(Sonda sonda, String comandoEnviado) {
+		if(ComandoEnum.M.name().equals(comandoEnviado)) {
+		switch(sonda.getDirecao() )
+		{
+		    case N:
+		    	sonda.setCordenadaY(sonda.getCordenadaY() + 1);
+		        break;
+		    case E:
+		    	sonda.setCordenadaX(sonda.getCordenadaX() + 1);
+	            break;
+		    
+		    case S:
+		    	sonda.setCordenadaY(sonda.getCordenadaY() - 1);
+	            break;
+		    case W:
+		    	sonda.setCordenadaX(sonda.getCordenadaX() - 1);
+	            break;
+		    		    
+			}
+		}
+	}
+
 	private void alterarDirecao(Sonda sonda, String comandoEnviado) {
+		if(!ComandoEnum.M.name().equals(comandoEnviado)) {
 		switch(sonda.getDirecao() )
 		{
 		    case N:
@@ -83,11 +108,12 @@ public class SondaService {
 	            break;
 		    case W:
 		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
-	            	sonda.setDirecao(DirecaoEnum.N);
-	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
 	            	sonda.setDirecao(DirecaoEnum.S);
+	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
+	            	sonda.setDirecao(DirecaoEnum.N);
 	            break;
 		    		    
+			}
 		}
 	}
 

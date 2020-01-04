@@ -3,8 +3,10 @@ package br.com.maddytec.marte.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +45,7 @@ public class SondaController {
 	}
 	
 	
+	@Transactional
 	@PostMapping(path = "/{sondaId}/{comandoExplorar}")
 	public ResponseEntity<Sonda> explorar(
 			@PathVariable(name = "sondaId") @Valid Long sondaId,
@@ -52,7 +55,7 @@ public class SondaController {
 		
 		   sonda = sondaService.explorar(sonda, comandoExplorar);
 		
-		//TODO exploração da sonda
+		 //  sondaService.save(sonda)
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(sonda);
