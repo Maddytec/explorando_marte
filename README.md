@@ -26,31 +26,18 @@ b) Criar o Planalto:
 [http://localhost:8080/swagger-ui.html#/Planalto/saveUsingPOST](http://localhost:8080/swagger-ui.html#/Planalto/saveUsingPOST)
 
 - Exemplo do Planalto: 
-	{
-	  "coordenadaX": 10,
-	  "coordenadaY": 10
-	}
+{ "coordenadaX": 10, "coordenadaY": 10 }
 
-c) Criar o Sonda:
+c) Criar a Sonda informando a sua localização no planalto:
 [http://localhost:8080/swagger-ui.html#/Sonda/saveUsingPOST_1](http://localhost:8080/swagger-ui.html#/Sonda/saveUsingPOST_1) 
-- Exemplo da Sonda:
-{
-  "coordenadaX": 5,
-  "coordenadaY": 5,
-  "direcao": "N"
-}
+- Exemplo da Sonda: { "coordenadaX": 5, "coordenadaY": 5, "direcao": "N" }
 
-- Retorno 
-{  "id":  1,
-  "coordenadaX":  5, 
-   "coordenadaY":  5,  
-   "direcao":  "N" 
- }
+- Retorno: { "id": 1, "coordenadaX": 5, "coordenadaY": 5, "direcao": "N" }
 
 d) Enviar comando para a sonda explorar Marte:
 [http://localhost:8080/swagger-ui.html#/Sonda/explorarUsingPOST](http://localhost:8080/swagger-ui.html#/Sonda/explorarUsingPOST)
 - Comando para exploração da sonda em Marte - comandoExplorar: MMRRMMLL 
--  Campo "sondaId" é código da sonda criada no item anterior: 1
+- Campo "sondaId" é código da sonda criada no item anterior: 1
 
 e) Finalizar exploração: 
 [http://localhost:8080/swagger-ui.html#/Planalto/finalizarExploracaoUsingPUT](http://localhost:8080/swagger-ui.html#/Planalto/finalizarExploracaoUsingPUT)
