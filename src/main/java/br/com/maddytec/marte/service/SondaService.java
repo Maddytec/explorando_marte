@@ -24,6 +24,9 @@ public class SondaService {
 
 	@Autowired
 	private PlanaltoRepository planaltoRepository;
+
+	@Autowired
+	private PlanaltoService planaltoService;
 	
 	public Sonda save(SondaDTO sondaDTO) {
 
@@ -57,16 +60,16 @@ public class SondaService {
 	}
 
 	public Sonda explorar(Sonda sonda, String comando) {
-		String executar = "";
+		String novaDirecao = "";
 		comando = comando.trim().toUpperCase();
 
-		Planalto planaltoExploracao = buscarPlanaltoExploracao();
+		Planalto planaltoExploracao = planaltoService.buscarPlanaltoExploracao();
 		if(planaltoExploracao != null 
 			&& ExploracaoEnum.EXPLORACAO_SIM.getDescricao().equals(planaltoExploracao.getExploracao().getDescricao())) {
 			for (int i = 0; i < comando.length(); i++) {
-				executar = comando.substring(i, i + 1);
-				mover(sonda, executar);
-				alterarDirecao(sonda, executar);
+				novaDirecao = comando.substring(i, i + 1);
+				mover(sonda, novaDirecao);
+				alterarDirecao(sonda, novaDirecao);
 			}
 		} else {
 			throw new IllegalStateException("Não há planalto com status para exploração");
@@ -76,7 +79,7 @@ public class SondaService {
 	}
 
 	private void mover(Sonda sonda, String executar) {
-		Planalto planaltoEncontrado = buscarPlanaltoExploracao();
+		Planalto planaltoEncontrado = planaltoService.buscarPlanaltoExploracao();
 		if(ComandoEnum.M.name().equals(executar) && planaltoEncontrado != null) {
 			sonda.setCoordenadaY(novaCordenadaPlanaltoExploracaoEixoY(sonda, planaltoEncontrado ));
 		    sonda.setCoordenadaX(novaCordenadaPlanaltoExploracaoEixoX(sonda, planaltoEncontrado ));
@@ -120,46 +123,23 @@ public class SondaService {
 		return sonda.getCoordenadaX();	
 	}
 
-	private Planalto buscarPlanaltoExploracao() {
-		List<Planalto> planaltos = planaltoRepository.findAll();
-		if (!CollectionUtils.isEmpty(planaltos)) {
-			return planaltos.stream().filter(planalto -> ExploracaoEnum.EXPLORACAO_SIM.getDescricao()
-					.equals(planalto.getExploracao().getDescricao()))
-					.findAny().orElse(null);
-		}
-		return null;
-	}
-	
-	private void alterarDirecao(Sonda sonda, String comandoEnviado) {
-		if(!ComandoEnum.M.name().equals(comandoEnviado)) {
-		switch(sonda.getDirecao() )
+	private void alterarDirecao(Sonda sonda, String novaDirecao) {
+		if(!ComandoEnum.M.name().equals(novaDirecao)) {
+		switch(sonda.getDirecao())
 		{
 		    case N:
-		            if(comandoEnviado.equals(ComandoEnum.L.name())) {
-		            	sonda.setDirecao(DirecaoEnum.W);
-		            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
-		            	sonda.setDirecao(DirecaoEnum.E);
+	            sonda.setDirecao(DirecaoEnum.N.alterarDirecao(novaDirecao));
 		            break;
 		    case E:
-		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
-	            	sonda.setDirecao(DirecaoEnum.N);
-	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
-	            	sonda.setDirecao(DirecaoEnum.S);
+		    	sonda.setDirecao(DirecaoEnum.E.alterarDirecao(novaDirecao));
 	            break;
 		    
 		    case S:
-		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
-	            	sonda.setDirecao(DirecaoEnum.E);
-	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
-	            	sonda.setDirecao(DirecaoEnum.W);
+		    	sonda.setDirecao(DirecaoEnum.S.alterarDirecao(novaDirecao));
 	            break;
 		    case W:
-		    	if(comandoEnviado.equals(ComandoEnum.L.name())) {
-	            	sonda.setDirecao(DirecaoEnum.S);
-	            } else if(comandoEnviado.equals(ComandoEnum.R.name()))
-	            	sonda.setDirecao(DirecaoEnum.N);
+		    	sonda.setDirecao(DirecaoEnum.W.alterarDirecao(novaDirecao));
 	            break;
-		    		    
 			}
 		}
 	}

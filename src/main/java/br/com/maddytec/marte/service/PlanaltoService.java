@@ -54,5 +54,14 @@ public class PlanaltoService {
 		return planaltoEncontrado;
 	}
 	
+	public Planalto buscarPlanaltoExploracao() {
+		List<Planalto> planaltos = planaltoRepository.findAll();
+		if (!CollectionUtils.isEmpty(planaltos)) {
+			return planaltos.stream().filter(planalto -> ExploracaoEnum.EXPLORACAO_SIM.getDescricao()
+					.equals(planalto.getExploracao().getDescricao()))
+					.findAny().orElse(null);
+		}
+		return null;
+	}
 
 }
